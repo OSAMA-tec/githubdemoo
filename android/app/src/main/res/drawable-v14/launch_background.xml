@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Sky-blue background color -->
+    <item android:drawable="@android:color/holo_blue_light" />
+
+    <!-- Centered logo -->
+    <item>
+        <bitmap
+            android:gravity="center"
+            android:src="@drawable/logo" /> <!-- Logo should be named 'logo.png' -->
+    </item>
+</layer-list>
