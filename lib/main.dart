@@ -1,27 +1,37 @@
 
+import 'package:flutter_on_boarding/screens/home.dart';
+import 'package:flutter_on_boarding/screens/statistics.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_on_boarding/home_screen.dart';
+import 'package:flutter_on_boarding/data/model/add_date.g.dart';
+import 'package:flutter_on_boarding/widget/buttomnavigationbar.dart';
 import 'package:flutter_on_boarding/iintroduction_screen.dart';
-import 'package:flutter_on_boarding/splash_screen.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'data/model/add_date.dart';
+
+
 
 bool show = true;
-void main() {
+
+Future<void> main() async {
+  await Hive.initFlutter();
+  Hive.registerAdapter(AdddataAdapter());
+  await Hive.openBox<Add_data>('data');
   runApp(const BudgetWallet());
 }
 
 class BudgetWallet extends StatelessWidget {
   const BudgetWallet({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'BudgetWallet',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home:SplashScreen(),
+        debugShowCheckedModeBanner: false,
+
+        home: IntroScreen(),
+        routes: {
+
+          '/home': (context) => Bottom(),
+        }
     );
-
   }
-
 }

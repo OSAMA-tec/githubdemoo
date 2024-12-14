@@ -6,6 +6,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: Container(
           width: double.infinity,
@@ -52,7 +53,7 @@ class HomeScreen extends StatelessWidget {
                     minWidth: double.infinity,
                     height: 60,
                     onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => const LoginPage()));
+                      Navigator.push(context, MaterialPageRoute(builder: (context) =>  LoginPage()));
 
                     },
                     shape: RoundedRectangleBorder(
@@ -78,7 +79,7 @@ class HomeScreen extends StatelessWidget {
                       Navigator.push(context, MaterialPageRoute(builder: (context)=> SignupPage()));
 
                     },
-                    color: Colors.blueAccent,
+                    color: Color(0xFF07574B),
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(50)
                     ),

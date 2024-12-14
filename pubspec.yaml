@@ -30,10 +30,10 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
-
-  # The following adds the Cupertino Icons font to your application.
-  # Use with the CupertinoIcons class for iOS style icons.
+  syncfusion_flutter_charts: ^20.2.44
+  hive: ^2.2.3
+  hive_flutter: ^1.1.0
+  intl: ^0.17.0
   cupertino_icons: ^1.0.2
   introduction_screen: ^3.1.14
   shared_preferences: ^2.0.11
@@ -42,13 +42,17 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  google_sign_in: ^6.2.2
+  build_runner: ^2.3.0
+  hive_generator: ^1.1.1
+  flutter_lints: ^1.0.0
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
   # activated in the `analysis_options.yaml` file located at the root of your
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
-  flutter_lints: ^1.0.0
+
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -64,6 +68,8 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/
+
+
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
@@ -77,9 +83,15 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
+  fonts:
+    - family: 's'
+      fonts:
+        - asset: assets/fonts/Roboto-Regular.ttf
+#            - asset: assets/fonts/Roboto-Bold.ttf
+#              weight: 700
+#            - asset: assets/fonts/Roboto-Italic.ttf
+#              style: italic
+
   #       - asset: fonts/Schyler-Regular.ttf
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic

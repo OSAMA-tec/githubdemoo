@@ -7,124 +7,105 @@ class IntroScreen extends StatelessWidget {
   IntroScreen({Key? key}) : super(key: key);
 
   final List<PageViewModel> pages = [
-    PageViewModel(
-        title: 'Set up your Goal',
-        body: 'Track and follow what matters to you. Save for important things ',
-        footer: const SizedBox(
-          height: 45,
-          width: 200,
-        ),
-        image: Center(
-
-          child: Image.asset('assets/2.svg.jpeg',
-            height: 200,
-            width: 200,
-            fit: BoxFit.contain,
-          ),
-        ),
-        decoration: const PageDecoration(
-            titleTextStyle: TextStyle(
-              fontSize: 25.0,
-              fontWeight: FontWeight.bold,
-            )
-        )
+    _buildPage(
+      title: 'Set up your Goal',
+      body: 'Track and follow what matters to you. Save for important things.',
+      imagePath: 'assets/2.svg.jpeg',
+      titleFontSize: 35.0,
+      bodyFontSize: 20.0,
     ),
-    PageViewModel(
-        title: 'Track your Spending',
-        body: 'Track and Analyse spending immediately and automatically through our BudgetWallet Application',
-        footer: const SizedBox(
-          height: 45,
-          width: 200,
-        ),
-        image: Center(
-          child: Image.asset('assets/1.svg.jpeg',
-            height: 200,
-            width: 200,
-            fit: BoxFit.contain,),
-        ),
-        decoration: const PageDecoration(
-            titleTextStyle: TextStyle(
-              fontSize: 25.0,
-              fontWeight: FontWeight.bold,
-            )
-        )
+    _buildPage(
+      title: 'Track your Spending',
+      body: 'Track and analyse spending automatically through our BudgetWallet App.',
+      imagePath: 'assets/1.svg.jpeg',
+      titleFontSize: 30.0,
+      bodyFontSize: 18.0,
     ),
-    PageViewModel(
-        title: 'Budget your money',
-        body: 'Build healthy financial habits.Control unnecessary expenses',
-        footer:const SizedBox(
-          height: 45,
-          width: 200,
-        ),
-        image: Center(
-          child: Image.asset('assets/3.svg.jpeg',
-            height: 200,
-            width: 200,
-            fit: BoxFit.contain,),
-        ),
-        decoration: const PageDecoration(
-            titleTextStyle: TextStyle(
-              fontSize: 25.0,
-              fontWeight: FontWeight.bold,
-            )
-        )
+    _buildPage(
+      title: 'Budget your Money',
+      body: 'Build healthy financial habits. Control unnecessary expenses.',
+      imagePath: 'assets/3.svg.jpeg',
+      titleFontSize: 30.0,
+      bodyFontSize: 20.0,
     ),
   ];
-  static  get context => null;
+
+  static PageViewModel _buildPage({
+    required String title,
+    required String body,
+    required String imagePath,
+    required double titleFontSize,
+    required double bodyFontSize,
+  }) {
+    return PageViewModel(
+      title: title,
+      body: body,
+      image: Center(child: Image.asset(imagePath)),
+      decoration: PageDecoration(
+        titleTextStyle: TextStyle(fontSize: titleFontSize, fontWeight: FontWeight.bold),
+        bodyTextStyle: TextStyle(fontSize: bodyFontSize),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.blueAccent,
-        title: const Text('BudgetWallet'),
-        centerTitle: true,
-      ),
       body: Padding(
-        padding: const EdgeInsets.fromLTRB(12, 80, 12, 12),
+        padding: const EdgeInsets.fromLTRB(12, 100, 12, 12),
         child: IntroductionScreen(
           pages: pages,
-          dotsDecorator: const DotsDecorator(
-            size: Size(10,10),
-            color: Colors.blueAccent,
+          dotsDecorator: DotsDecorator(
+            size: Size(10, 10),
+            color: Color(0xFF07574B),
             activeSize: Size.square(15),
-            activeColor: Colors.white10,
+            activeColor: Color(0xFF086E5D),
           ),
           showDoneButton: true,
-
-          done: Container(
-            padding: EdgeInsets.all(8),
-            decoration: BoxDecoration(color: Colors.blueAccent, borderRadius: BorderRadius.circular(20)),
-            child: Text('Start Now', style: TextStyle(fontSize: 15, color: Colors.white)),
-          ),
-
+          done: _buildButton('Start Now'),
           showSkipButton: true,
-          skip: Container(
-            padding: EdgeInsets.all(8),
-            decoration: BoxDecoration(color: Colors.blueAccent, borderRadius: BorderRadius.circular(20)),
-            child: Text('Skip', style: TextStyle(fontSize: 15, color: Colors.white)),
-          ),
+          skip: _buildButton('Skip'),
           showNextButton: true,
-          next: Container(
-            decoration: BoxDecoration(
-              color: Colors.blueAccent,
-              shape: BoxShape.circle,
-            ),
-            padding: EdgeInsets.all(8),
-            child: Icon(Icons.arrow_forward, size: 20, color: Colors.white),
-          ),
-          onDone: () => onDone(context),
-          onSkip: () => onDone(context),
-          curve: Curves.bounceOut,
+          next: _buildNextButton(),
+          onDone: () => _onDone(context),
+          onSkip: () => _onDone(context),
+          // curve: Curves.bounceOut,
         ),
       ),
     );
   }
 
-  void onDone(context) async {
+  Widget _buildButton(String text) {
+    return Container(
+      padding: EdgeInsets.all(8),
+      decoration: BoxDecoration(
+        color: Color(0xFF07574B),
+        borderRadius: BorderRadius.circular(40),
+      ),
+      child: Text(
+        text,
+        style: TextStyle(fontSize: 15, color: Colors.white),
+      ),
+    );
+  }
+
+  Widget _buildNextButton() {
+    return Container(
+      decoration: BoxDecoration(
+        color: Color(0xFF07574B),
+        shape: BoxShape.circle,
+      ),
+      padding: EdgeInsets.all(8),
+      child: Icon(Icons.arrow_forward, size: 28, color: Colors.white),
+    );
+  }
+
+  Future<void> _onDone(BuildContext context) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool('ON_BOARDING', false);
     Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => const HomeScreen()));
+      context,
+      MaterialPageRoute(builder: (context) => const HomeScreen()),
+    );
   }
 }
