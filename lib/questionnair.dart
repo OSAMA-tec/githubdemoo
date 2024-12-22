@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'BudgetBook.dart';
+import 'package:flutter_on_boarding/screens/homeMain.dart';
 
 class QuestionnairePage extends StatefulWidget {
   @override
@@ -10,6 +10,8 @@ class QuestionnairePage extends StatefulWidget {
 class _QuestionnairePageState extends State<QuestionnairePage> {
   List<String> selectedCategories = [];
   final List<String> categories = ["Food", "Transport", "Utility", "Groceries", "Merchandise"];
+  String maritalStatus = "Single";
+  String? numberOfFamilyMembers;
 
   @override
   Widget build(BuildContext context) {
@@ -35,8 +37,13 @@ class _QuestionnairePageState extends State<QuestionnairePage> {
               Text("Personal Questions.", style: TextStyle(fontWeight: FontWeight.bold)),
               SizedBox(height: 10),
               _buildTextField("Date of Birth *", "DD/MM/YYYY"),
-              _buildDropdown("Profession *", ["Student", "Employee", "Other"]),
-              _buildDropdown("Marital Status *", ["Single", "Married", "Other"]),
+              _buildDropdown("Profession *", ["Student", "Employee"]),
+              _buildDropdown("Marital Status *", ["Single", "Married"]),
+
+              // Conditional field for family members if married
+              if (maritalStatus == "Married")
+                _buildTextField("Number of Family Members *", "Enter number"),
+
               SizedBox(height: 20),
               Text("Add Recurring Expenses.", style: TextStyle(fontWeight: FontWeight.bold)),
               SizedBox(height: 10),
@@ -45,6 +52,10 @@ class _QuestionnairePageState extends State<QuestionnairePage> {
               _buildTextField("Gas", "Rs 1,320"),
               _buildTextField("Rent", "Rs 25,000"),
               _buildDropdown("Monthly Loans ?", ["Car Loan", "House Loan", "None"]),
+
+              // Added Expected Income field
+              _buildTextField("Expected Income", "Enter your expected monthly income"),
+
               SizedBox(height: 20),
               Row(
                 children: [
@@ -68,7 +79,7 @@ class _QuestionnairePageState extends State<QuestionnairePage> {
                     // Navigate to BudgetBookManager on Submit
                     Navigator.pushReplacement(
                       context,
-                      MaterialPageRoute(builder: (context) => BudgetBookManager()),
+                      MaterialPageRoute(builder: (context) => Home()),
                     );
                   }
                       : null,
@@ -93,7 +104,9 @@ class _QuestionnairePageState extends State<QuestionnairePage> {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: TextField(
-        keyboardType: label == "Date of Birth *" ? TextInputType.number : TextInputType.text,
+        keyboardType: label == "Date of Birth *" || label == "Number of Family Members *"
+            ? TextInputType.number
+            : TextInputType.text,
         inputFormatters: label == "Date of Birth *"
             ? [
           FilteringTextInputFormatter.digitsOnly,
@@ -117,12 +130,17 @@ class _QuestionnairePageState extends State<QuestionnairePage> {
           hintText: hintText,
           border: OutlineInputBorder(),
         ),
+        onChanged: label == "Number of Family Members *"
+            ? (value) {
+          numberOfFamilyMembers = value;
+        }
+            : null,
       ),
     );
   }
 
   Widget _buildDropdown(String label, List<String> options) {
-    String dropdownValue = options[0];
+    String dropdownValue = label == "Marital Status *" ? maritalStatus : options[0];
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: DropdownButtonFormField<String>(
@@ -137,7 +155,13 @@ class _QuestionnairePageState extends State<QuestionnairePage> {
             child: Text(value),
           );
         }).toList(),
-        onChanged: (newValue) {},
+        onChanged: (newValue) {
+          setState(() {
+            if (label == "Marital Status *") {
+              maritalStatus = newValue!;
+            }
+          });
+        },
       ),
     );
   }
@@ -157,7 +181,7 @@ class _QuestionnairePageState extends State<QuestionnairePage> {
               }
             });
           },
-          activeColor: Colors.blue, // Blue tick mark color
+          activeColor: Colors.blue,
         );
       }).toList(),
     );

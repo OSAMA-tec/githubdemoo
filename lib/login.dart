@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_on_boarding/screens/home.dart';
+import 'package:flutter_on_boarding/screens/homeMain.dart';
 import 'forget_password.dart';
 import 'signin.dart';
 
